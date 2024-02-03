@@ -2,18 +2,10 @@ package org.example;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
 
 public class Main {
     public static String resourcesPath = "/home/craacky/Projects/Digital-Signal-Processing/lab1/src/main/resources/";
@@ -32,25 +24,23 @@ public class Main {
 
     public static void bitmapMetadata(String filePath) throws IOException {
         File file = new File(filePath);
-
-        FileInputStream fis = new FileInputStream(file);
         BufferedImage image = ImageIO.read(file);
-        
+        int compression = image.getType();
+        int colorModel = image.getColorModel().getColorSpace().getType();
+
         System.out.println("File type: bitmap(BMP)");
         System.out.println("Value of file: " + ((double) file.length() / (1024L * 1024L)) + " MB");
         System.out.println("Width of file: " + image.getWidth() + " pixels");
         System.out.println("Height of file: " + image.getHeight() + " pixels");
         System.out.println("BitsPerPixel: " + image.getColorModel().getPixelSize() + " bits");
 
-        int compression = image.getType();
         if (compression == BufferedImage.TYPE_BYTE_BINARY || compression == BufferedImage.TYPE_BYTE_INDEXED) {
             System.out.println("Compression status: true");
         } else {
             System.out.println("Compression status: false");
         }
-        System.out.println("Total value of colors: " + colorsCounter(image));
 
-        int colorModel = image.getColorModel().getColorSpace().getType();
+        System.out.println("Total value of colors: " + colorsCounter(image));
         System.out.println("Color model:" + (colorModel == 5 ? " Indexed" : colorModel == 6 ? " Direct" : " Unknown"));
     }
 
@@ -64,7 +54,6 @@ public class Main {
         }
         return colors.size();
     }
-
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
@@ -82,19 +71,16 @@ public class Main {
             frame.setSize(image.getWidth(), image.getHeight());
 
             JLabel label = new JLabel(new ImageIcon(image));
-            frame.add(label);
             JScrollPane scrollPane = new JScrollPane(label);
+
+            frame.add(label);
             frame.add(scrollPane);
 
             frame.setVisible(true);
-
             bitmapMetadata(filePath);
-
         } else {
             System.out.println("Wrong file type. Image viewer support only BMP! BYE BYE !");
             System.exit(0);
         }
-
     }
-
 }
