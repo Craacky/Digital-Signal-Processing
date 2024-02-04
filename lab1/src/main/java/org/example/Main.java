@@ -8,7 +8,7 @@ import java.nio.file.*;
 import java.util.*;
 
 public class Main {
-    public static String resourcesPath = "/home/craacky/Projects/Digital-Signal-Processing/lab1/src/main/resources/";
+    public static String resourcesPath = "D:\\Projects\\Digital-Signal-Processing\\lab1\\src\\main\\resources\\";
 
     public static Set<String> listFiles(String dir) throws IOException {
         Set<String> fileSet = new HashSet<>();
@@ -71,9 +71,9 @@ public class Main {
             frame.setSize(image.getWidth(), image.getHeight());
 
             JLabel label = new JLabel(new ImageIcon(image));
-            JScrollPane scrollPane = new JScrollPane(label);
-
             frame.add(label);
+
+            JScrollPane scrollPane = new JScrollPane(label);
             frame.add(scrollPane);
 
             frame.setVisible(true);
