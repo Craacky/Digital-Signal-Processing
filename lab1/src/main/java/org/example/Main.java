@@ -10,6 +10,35 @@ import java.util.*;
 public class Main {
     public static String resourcesPath = "D:\\Projects\\Digital-Signal-Processing\\lab1\\src\\main\\resources\\";
 
+    public static void main(String[] args) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter name of you file");
+        System.out.println(listFiles(resourcesPath));
+        System.out.print("Choose one: ");
+        String filePath = resourcesPath + scanner.next();
+
+        if (filePath.substring(filePath.lastIndexOf(".") + 1).equals("bmp")) {
+            BufferedImage image = ImageIO.read(new File(filePath));
+
+            JFrame frame = new JFrame("COS lab_1 v0.1");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(image.getWidth(), image.getHeight());
+
+            JLabel label = new JLabel(new ImageIcon(image));
+            frame.add(label);
+
+            JScrollPane scrollPane = new JScrollPane(label);
+            frame.add(scrollPane);
+
+            frame.setVisible(true);
+            bitmapMetadata(filePath);
+        } else {
+            System.out.println("Wrong file type. Image viewer support only BMP! BYE BYE !");
+            System.exit(0);
+        }
+    }
+
     public static Set<String> listFiles(String dir) throws IOException {
         Set<String> fileSet = new HashSet<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir))) {
@@ -53,34 +82,5 @@ public class Main {
             }
         }
         return colors.size();
-    }
-
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter name of you file");
-        System.out.println(listFiles(resourcesPath));
-        System.out.print("Choose one: ");
-        String filePath = resourcesPath + scanner.next();
-
-        if (filePath.substring(filePath.lastIndexOf(".") + 1).equals("bmp")) {
-            BufferedImage image = ImageIO.read(new File(filePath));
-
-            JFrame frame = new JFrame("COS lab_1 v0.1");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(image.getWidth(), image.getHeight());
-
-            JLabel label = new JLabel(new ImageIcon(image));
-            frame.add(label);
-
-            JScrollPane scrollPane = new JScrollPane(label);
-            frame.add(scrollPane);
-
-            frame.setVisible(true);
-            bitmapMetadata(filePath);
-        } else {
-            System.out.println("Wrong file type. Image viewer support only BMP! BYE BYE !");
-            System.exit(0);
-        }
     }
 }
