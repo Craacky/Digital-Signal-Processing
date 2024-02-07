@@ -2,7 +2,9 @@ package org.example;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
@@ -21,7 +23,7 @@ public class Main {
         if (filePath.substring(filePath.lastIndexOf(".") + 1).equals("bmp")) {
             BufferedImage image = ImageIO.read(new File(filePath));
 
-            JFrame frame = new JFrame("COS lab_1 v0.1");
+            JFrame frame = new JFrame("COS lab_1");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(image.getWidth(), image.getHeight());
 
@@ -55,7 +57,6 @@ public class Main {
         File file = new File(filePath);
         BufferedImage image = ImageIO.read(file);
         int compression = image.getType();
-        int colorModel = image.getColorModel().getColorSpace().getType();
 
         System.out.println("File type: bitmap(BMP)");
         System.out.println("Value of file: " + ((double) file.length() / (1024L * 1024L)) + " MB");
@@ -70,7 +71,22 @@ public class Main {
         }
 
         System.out.println("Total value of colors: " + colorsCounter(image));
-        System.out.println("Color model:" + (colorModel == 5 ? " Indexed" : colorModel == 6 ? " Direct" : " Unknown"));
+        determineColorPallet(image);
+    }
+
+    public static void determineColorPallet(BufferedImage image) {
+        ColorModel colorModel = image.getColorModel();
+        int colorSpaceType = colorModel.getColorSpace().getType();
+
+        if (colorSpaceType == ColorSpace.TYPE_RGB) {
+            System.out.println("Color pallet: RGB");
+        } else if (colorSpaceType == ColorSpace.TYPE_GRAY) {
+            System.out.println("Color pallet: Greyscale");
+        } else if (colorSpaceType == ColorSpace.TYPE_CMYK) {
+            System.out.println("Color pallet: CMYK");
+        } else {
+            System.out.println("Color pallet: Unknown");
+        }
     }
 
     public static int colorsCounter(BufferedImage image) {
@@ -83,4 +99,6 @@ public class Main {
         }
         return colors.size();
     }
+
+
 }
