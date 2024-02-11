@@ -10,7 +10,10 @@ import java.nio.file.*;
 import java.util.*;
 
 public class Main {
-    public static String resourcesPath = "D:\\Projects\\Digital-Signal-Processing\\lab1\\src\\main\\resources\\";
+    // Windows path
+//    public static String resourcesPath = "D:\\Projects\\Digital-Signal-Processing\\lab1\\src\\main\\resources\\";
+//Linux path
+    public static String resourcesPath = "/home/craacky/Projects/Digital-Signal-Processing/lab1/src/main/resources/";
 
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
